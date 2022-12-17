@@ -1,0 +1,12 @@
+#header {
+    background: #3B3D4A;
+}
+.submit-row input {
+    background: #3B3D4A;
+}
+
+.login .form-row #id_number {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}

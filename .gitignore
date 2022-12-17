@@ -1,0 +1,7 @@
+# Environments
+.env/.env
+.venv
+env/
+venv/
+ENV/
+easy_venv/
