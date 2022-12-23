@@ -4,6 +4,8 @@ from account.auth_backends import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from companies.models import Company
+
 
 def generate_code():
     random.seed()
@@ -25,3 +27,29 @@ class Code(models.Model):
 
     def __str__(self):
         return self.number
+
+
+class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('user'))
+    usser_id = models.CharField(max_length=155, verbose_name=_('usser_id'))
+    сompany = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name=_('сompany'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
+    STATUS_CHOICES = [
+        ('NOT HAVE IN DB', 'NOT HAVE IN DB'),
+        ('USER BAN', 'USER BAN'),
+        ('DEVICE BANNED', 'DEVICE BANNED'),
+    ]
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        verbose_name=_('status'),
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name_plural = _('client')
+        verbose_name = _('clients')
+
+    def __str__(self):
+        return self.usser_id

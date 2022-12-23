@@ -6,6 +6,10 @@ from countries.models import Country
 
 
 class Command(BaseCommand):
+    """
+    Команда для добавления стран со списком тайм-зон
+    Команда для загрузки: python manage.py add_countries
+    """
 
     def handle(self, *args, **options):
         url = 'https://goodtoolscron.xyz/iso/'
@@ -21,8 +25,8 @@ class Command(BaseCommand):
                 time_zones = soup_time_zones.find('p')
                 time_zones = time_zones.text.split()
                 Country.objects.create(
-                    country=country_name,
+                    name=country_name,
                     time_zones=time_zones
                 )
         count_time_zones = Country.objects.all().count()
-        self.stdout.write(self.style.SUCCESS(f'Successfully! Added {count_time_zones} time zones'))
+        self.stdout.write(self.style.SUCCESS(f'Successfully! Added {count_time_zones} countries'))

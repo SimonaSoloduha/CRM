@@ -1,0 +1,66 @@
+:root {
+  --primary: #828282;
+  --secondary: #3B3D4A;
+  --accent: #CE0E0E;
+  }
+
+.login .form-row #id_number {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+div.breadcrumbs {
+    background: #828282;
+}
+
+/* MODULES */
+
+.module table {
+    border-collapse: separate;
+
+    background: #E5E5E5;
+    border: 1px solid #828282;
+    border-radius: 4px 0px 0px 0px;
+}
+
+thead th a:link, tfoot td {
+    color: #000000;
+}
+
+
+/* ACTION ICONS */
+.changelink, .inlinechangelink {
+    padding: 0px  10px 10px 10px !important;
+    margin: 5px;
+    background: url(../../icons/auto_fix_high.png) 0 1px no-repeat !important;
+    height: 10px;
+}
+
+/* RELATED WIDGET WRAPPER */
+.related-widget-wrapper {
+    float: none !important;
+}
+
+/* CUSTOM */
+/* TABLE BUTTON */
+
+.deletelink {
+    background: url(../../icons/delete.png) 0 1px no-repeat;
+}
+
+.fixlink {
+    background: url(../../icons/auto_fix_high.png) 0 1px no-repeat;
+}
+
+.duplicatelink {
+    background: url(../../icons/duplicate.png) 0 1px no-repeat;
+}
+
+.tablelink {
+    padding: 3px 10px 10px 10px;
+    margin-right: 5px;
+    width: 15px;
+    height: 18px;
+}
+

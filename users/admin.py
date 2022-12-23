@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from users.models import Code
+from users.models import Client
 
 
-admin.site.register(Code)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('id', 'usser_id', 'status')
+    actions = None
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(Client, ClientAdmin)

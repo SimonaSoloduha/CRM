@@ -43,12 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    # 'crispy_forms',
-
     'account',
     'companies',
     'countries',
     'users',
+    'logs',
 
 ]
 
@@ -157,13 +156,16 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'media/'
 
 SITE_ID = 2
 
@@ -186,5 +188,4 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_URL = 'admin/login/'
