@@ -6,6 +6,11 @@ from django.utils.translation import gettext_lazy as _
 
 from companies.models import Company
 
+STATUS_NOT_HAVE_IN_DB = 'NOT HAVE IN DB'
+STATUS_USER_BAN = 'USER BAN'
+STATUS_DEVICE_BANNED = 'DEVICE BANNED'
+STATUS_RETRY_USER = 'RETRY USER'
+
 
 def generate_code():
     random.seed()
@@ -32,13 +37,14 @@ class Code(models.Model):
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('user'))
     usser_id = models.CharField(max_length=155, verbose_name=_('usser_id'))
-    сompany = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name=_('сompany'))
+    сompany = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, verbose_name=_('сompany'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('updated_at'))
     STATUS_CHOICES = [
-        ('NOT HAVE IN DB', 'NOT HAVE IN DB'),
-        ('USER BAN', 'USER BAN'),
-        ('DEVICE BANNED', 'DEVICE BANNED'),
+        (STATUS_NOT_HAVE_IN_DB, STATUS_NOT_HAVE_IN_DB),
+        (STATUS_USER_BAN, STATUS_USER_BAN),
+        (STATUS_DEVICE_BANNED, STATUS_DEVICE_BANNED),
+        (STATUS_RETRY_USER, STATUS_RETRY_USER)
     ]
     status = models.CharField(
         max_length=20,

@@ -29,6 +29,7 @@ from countries.models import Country
 urlpatterns = [
     path('', include('companies.urls')),
     path('', include('users.urls')),
+    path('', include('logs.urls')),
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
