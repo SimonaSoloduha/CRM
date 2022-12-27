@@ -197,3 +197,4 @@ LOGIN_URL = 'admin/login/'
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+USE_X_FORWARDED_HOST = True

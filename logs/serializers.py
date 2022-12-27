@@ -21,8 +21,18 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         validated_data['user_agent'] = self.context.get('request').META.get("HTTP_USER_AGENT")
         validated_data['ip'] = self.context.get('request').META.get("REMOTE_ADDR")
-        ip_client = self.context.get('request').META.get('X-Real-IP')
-        print('I P !!!! REMOTE_ADDR: ', self.context.get('request').META.get("X-Forwarded-For"))
+        # ip_client = self.context.get('request').META.get('X-Real-IP')
+
+        if 'HTTP_X_FORWARDED_FOR' in self.context.get('request').META:
+            ip_adds = self.context.get('request').META['HTTP_X_FORWARDED_FOR'].split(",")
+            ip = ip_adds[0]
+            print('*1*')
+        else:
+            ip = self.context.get('request').META['REMOTE_ADDR']
+            print('*2*')
+
+        print('I P !!!!: ', ip)
+
         # {'domen': 'domen.com', 'packege_id': 'packageName', 'usser_id': 'XXXXXXXXXXXX', 'getz_user': 'timeZone',
         #  'getr_user': 'utm_source=google-play', 'utm_medium': 'organic',
         #  'user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
