@@ -1,0 +1,17 @@
+{% load i18n admin_urls %}
+<div class="submit-row">
+
+
+    <input type="submit" value="{% translate 'Save' %}" class="default" name="_save">
+    <input type="button" value="{% trans 'Cancel' %}" name="_addanother" onclick="location.href='../../'">
+{% if show_delete_link and original %}
+    {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+    <p class="deletelink-box"><a href="{% add_preserved_filters delete_url %}" class="deletelink">{% translate "Delete" %}</a></p>
+{% endif %}
+    {% if original %}
+    <a href="{% url 'companies:add_duplicate' pk=original.pk %}"><input type="button"
+                                                                        value="{% trans 'Add duplicate' %}"
+                                                                        name="_add_duplicate"></a>
+    {% endif %}
+
+</div>

@@ -1,0 +1,13 @@
+# Environments
+.env/.env
+.venv
+env/
+venv/
+ENV/
+easy_venv/
+# Text backup files
+*.bak
+
+#Database
+*.sqlite3
+
