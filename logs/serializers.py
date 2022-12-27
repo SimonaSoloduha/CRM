@@ -3,11 +3,12 @@ from datetime import datetime, timezone
 from rest_framework import serializers
 from django.core.exceptions import ObjectDoesNotExist
 
-
 from companies.models import Company
 from logs.models import Log
 from users.models import Client, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_NOT_HAVE_IN_DB
 from account.auth_backends import User
+
+
 
 BLOCK_STATUSES = ['NOT HAVE IN DB', 'USER BAN', 'DEVICE BANNED']
 
@@ -21,6 +22,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         validated_data['user_agent'] = self.context.get('request').META.get("HTTP_USER_AGENT")
         validated_data['ip'] = self.context.get('request').META.get("REMOTE_ADDR")
         ip_client = self.context.get('request').META.get('X-Real-IP')
+        print('I P !!!! REMOTE_ADDR: ', self.context.get('request').META.get("REMOTE_ADDR"))
         # {'domen': 'domen.com', 'packege_id': 'packageName', 'usser_id': 'XXXXXXXXXXXX', 'getz_user': 'timeZone',
         #  'getr_user': 'utm_source=google-play', 'utm_medium': 'organic',
         #  'user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
