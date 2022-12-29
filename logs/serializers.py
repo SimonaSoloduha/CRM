@@ -152,11 +152,13 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                 print('step 3')
 
                 last_log = Log.objects.filter(client=client).latest('created_at')
+                print('step 3-1')
 
                 if check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_header,
                                                      country_code_from_header):
                     # Проверка не пройдена, изменяем статус клиента на 'USER BAN' и добавляем статус лога 'USER BAN'
                     update_status(validated_data, client, status=STATUS_USER_BAN)
+                    print('step 3-2')
 
                 else:
                     print('step 4')
@@ -183,6 +185,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                         validated_data['filter_one_time_zone'] = False
                         update_status(validated_data, client, status=STATUS_STOP_TIME_ZONE)
                         print('step 6')
+            print('step 3-3')
 
         except users.models.Client.DoesNotExist:
             print('step 7')
