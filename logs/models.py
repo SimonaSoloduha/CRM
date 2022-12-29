@@ -3,7 +3,11 @@ from django.utils.translation import gettext_lazy as _
 
 from countries.models import Country
 from users.models import Client, STATUS_NOT_HAVE_IN_DB, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_RETRY_USER, \
-    STATUS_VIRTUAL_DEVICE, STATUS_STOP_TIME_ZONE, STATUS_STOP_MCHECKER
+    STATUS_VIRTUAL_DEVICE
+
+STATUS_SUCCESSFUL = 'SUCCESSFUL'
+STATUS_STOP_TIMEZONE = 'Stop TimeZone'
+STATUS_STOP_MCHECKER = 'Stop Mchecker'
 
 
 class Log(models.Model):
@@ -24,8 +28,6 @@ class Log(models.Model):
         (STATUS_DEVICE_BANNED, STATUS_DEVICE_BANNED),
         (STATUS_RETRY_USER, STATUS_RETRY_USER),
         (STATUS_VIRTUAL_DEVICE, STATUS_VIRTUAL_DEVICE),
-        (STATUS_STOP_TIME_ZONE, STATUS_STOP_TIME_ZONE),
-        (STATUS_STOP_MCHECKER, STATUS_STOP_MCHECKER),
     ]
     status = models.CharField(
         max_length=20,
@@ -34,8 +36,8 @@ class Log(models.Model):
         blank=True,
     )
     FILTER_ONE_CHOICES = [
-        ('Stop TimeZone', 'Stop TimeZone'),
-        ('SUCCESSFUL', 'SUCCESSFUL'),
+        (STATUS_STOP_TIMEZONE, STATUS_STOP_TIMEZONE),
+        (STATUS_SUCCESSFUL, STATUS_SUCCESSFUL),
     ]
     filter_one_time_zone = models.CharField(
         max_length=20,
@@ -44,8 +46,8 @@ class Log(models.Model):
         blank=True,
     )
     FILTER_TWO_CHOICES = [
-        ('Stop Mchecker', 'Stop Mchecker'),
-        ('SUCCESSFUL', 'SUCCESSFUL'),
+        (STATUS_STOP_MCHECKER, STATUS_STOP_MCHECKER),
+        (STATUS_SUCCESSFUL, STATUS_SUCCESSFUL),
     ]
     filter_two_cheker = models.CharField(
         max_length=20,

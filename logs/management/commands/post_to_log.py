@@ -8,11 +8,10 @@ class Command(BaseCommand):
     """
 
     def handle(self, *args, **options):
-
         data = {
-            'domen': 'domen12332312.com',
+            'domen': 'domen.com',
             'packege_id': 'packageName',
-            'usser_id': 'XXXXXXX3X14323213',
+            'usser_id': 'XXXX523X3',
             # 'getz_user': 'America/Antigua',
             'getz_user': 'Europe/Kiev',
             'getr_user': 'utm_source=google-play',
@@ -23,3 +22,13 @@ class Command(BaseCommand):
         # req = requests.get("http://127.0.0.1:8000/logs/")
 
         self.stdout.write(self.style.SUCCESS(f'Done!  {req}'))
+
+#
+# data = {
+#     "domen": "domen.com",
+#     "packege_id": "packageName",
+#     "usser_id": "XXXXXXX",
+#     "getz_user": "Europe/Kiev",
+#     "getr_user": "utm_source=google-play",
+#     "utm_medium": "organic"
+# }

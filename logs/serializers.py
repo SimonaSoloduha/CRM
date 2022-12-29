@@ -6,10 +6,10 @@ from django.core.exceptions import ObjectDoesNotExist
 import users
 from companies.models import Company
 from countries.models import Country
-from logs.models import Log
+from logs.models import Log, STATUS_STOP_TIMEZONE, STATUS_SUCCESSFUL
 from logs.tasks import get_location_data
 from users.models import Client, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_NOT_HAVE_IN_DB, STATUS_RETRY_USER, \
-    STATUS_STOP_TIME_ZONE, STATUS_VIRTUAL_DEVICE
+    STATUS_VIRTUAL_DEVICE
 from account.auth_backends import User
 
 
@@ -17,14 +17,11 @@ def update_status(validated_data, client, status):
     """
     Обновление статусо
     """
-    print('обновляем статус')
 
     validated_data['status'] = status
     if client.status != status:
-        print('client.status', client.status)
         client.status = status
         client.save(update_fields=['status'])
-    print('обновили')
 
 
 def create_new_client(usser_id, domen):
@@ -113,11 +110,9 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             ip_adds = self.context.get('request').META['HTTP_X_FORWARDED_FOR'].split(",")
             ip = ip_adds[0]
             validated_data['ip'] = ip
-            print('*1*')
         else:
             ip = self.context.get('request').META['REMOTE_ADDR']
             validated_data['ip'] = ip
-            print('*2*')
         # ip = '80.90.237.83'
         # validated_data['ip'] = ip
         # country
@@ -136,9 +131,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         usser_id = validated_data.get('usser_id')
         # domen
         domen = validated_data.get('domen')
-        print('step 1')
         try:
-            print('step 2')
             # Клиент есть в БД, проверяем статусы 'USER BAN' и 'DEVICE BANNED'
             client = Client.objects.get(usser_id=usser_id)
             validated_data['client'] = client
@@ -153,20 +146,13 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 # У клиента нет статусов 'USER BAN' и 'DEVICE BANNED'
                 # Проверка изменений
-                print('step 3')
-
                 last_log = Log.objects.filter(client=client).latest('created_at')
-                print('step 3-1', last_log)
-
                 if check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_header,
                                                      country_code_from_header):
-                    print('step 3-2')
                     # Проверка не пройдена, изменяем статус клиента на 'USER BAN' и добавляем статус лога 'USER BAN'
                     update_status(validated_data, client, status=STATUS_USER_BAN)
 
                 else:
-                    print('step 4')
-
                     # Добавляем статус 'RETRY USER' клиенту и логу
                     update_status(validated_data, client, status=STATUS_RETRY_USER)
 
@@ -179,20 +165,14 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                     country_user = country
                     сompany_countries = client.сompany.countries.all()
                     if check_filter_one_time_zone(getz_user, country_time_zones, country_user, сompany_countries):
-                        validated_data['filter_one_time_zone'] = True
+                        validated_data['filter_one_time_zone'] = STATUS_SUCCESSFUL
                         # Переход на фильтр 2
-                        print('step 5')
-
                     else:
                         # TimeZone НЕ совпадает с TimeZone страны и/или страна НЕ допустима для компании,
                         # изменяем статус клиента на 'USER BAN' и добавляем статус лога STOP TIME ZONE
-                        validated_data['filter_one_time_zone'] = False
-                        update_status(validated_data, client, status=STATUS_STOP_TIME_ZONE)
-                        print('step 6')
-            print('step 3-3')
+                        validated_data['filter_one_time_zone'] = STATUS_STOP_TIMEZONE
 
         except users.models.Client.DoesNotExist:
-            print('step 7')
 
             # Клиента нет в БД
             # Создаем клиента и присваиваем клиенту и логу статус 'NOT HAVE IN DB'
@@ -205,10 +185,9 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             try:
                 сompany_countries = client.сompany.countries.all()
                 if check_filter_one_time_zone(getz_user, country_time_zones, country_user, сompany_countries):
-                    validated_data['filter_one_time_zone'] = True
+                    validated_data['filter_one_time_zone'] = STATUS_SUCCESSFUL
             except AttributeError:
                 # Нет компании в БД
                 pass
-        print('step 8')
 
         return Log.objects.create(**validated_data)
