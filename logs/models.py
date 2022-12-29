@@ -2,7 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from countries.models import Country
-from users.models import Client, STATUS_NOT_HAVE_IN_DB, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_RETRY_USER
+from users.models import Client, STATUS_NOT_HAVE_IN_DB, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_RETRY_USER, \
+    STATUS_VIRTUAL_DEVICE, STATUS_STOP_TIME_ZONE, STATUS_STOP_MCHECKER
 
 
 class Log(models.Model):
@@ -10,7 +11,7 @@ class Log(models.Model):
     ip = models.CharField(max_length=100, blank=True, verbose_name=_('ip'))
     getz_user = models.CharField(max_length=100, verbose_name=_('getz'))
     getr_user = models.CharField(max_length=255, verbose_name=_('getr'))
-    county = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name=_('county'))
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name=_('country'))
     domen = models.CharField(max_length=255, verbose_name=_('domen'))
     packege_id = models.CharField(max_length=255, verbose_name=_('packege_id'))
     usser_id = models.CharField(max_length=255, verbose_name=_('usser_id'))
@@ -22,7 +23,9 @@ class Log(models.Model):
         (STATUS_USER_BAN, STATUS_USER_BAN),
         (STATUS_DEVICE_BANNED, STATUS_DEVICE_BANNED),
         (STATUS_RETRY_USER, STATUS_RETRY_USER),
-        ('VIRTUAL DEVICE', 'VIRTUAL DEVICE'),
+        (STATUS_VIRTUAL_DEVICE, STATUS_VIRTUAL_DEVICE),
+        (STATUS_STOP_TIME_ZONE, STATUS_STOP_TIME_ZONE),
+        (STATUS_STOP_MCHECKER, STATUS_STOP_MCHECKER),
     ]
     status = models.CharField(
         max_length=20,

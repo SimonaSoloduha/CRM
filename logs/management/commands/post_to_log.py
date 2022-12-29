@@ -10,11 +10,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         data = {
-            'domen': 'domen.com',
+            'domen': 'domen12332312.com',
             'packege_id': 'packageName',
-            'usser_id': 'XXXXXXXXXXXX',
+            'usser_id': 'XXXXXXX3X14323213',
             # 'getz_user': 'America/Antigua',
-            'getz_user': 'Europe/Tirane',
+            'getz_user': 'Europe/Kiev',
             'getr_user': 'utm_source=google-play',
             'utm_medium': 'organic',
         }

@@ -198,3 +198,8 @@ LOGIN_URL = 'admin/login/'
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 USE_X_FORWARDED_HOST = True
+
+
+# ABSTRACT settings (For get locations info from request)
+ABSTRACT_IP_KEY = env('ABSTRACT_IP_KEY')
+ABSTRACT_API_URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + ABSTRACT_IP_KEY
