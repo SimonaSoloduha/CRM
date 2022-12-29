@@ -63,6 +63,7 @@ def check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_hea
     time_zone_changed = False
     time_zone_from_header_changed = False
     country_changed = False
+    print('****', last_log, ip, getz_user, timezone_from_header, country_code_from_header)
 
     now = datetime.now(timezone.utc)
     last_visit_time = last_log.created_at
@@ -79,6 +80,7 @@ def check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_hea
         country_changed = True
     if last_visit_less_5_min or ip_changed or time_zone_changed or time_zone_from_header_changed or \
             country_changed:
+        print('Не даем')
         return True
 
 
@@ -152,7 +154,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                 print('step 3')
 
                 last_log = Log.objects.filter(client=client).latest('created_at')
-                print('step 3-1')
+                print('step 3-1', last_log)
 
                 if check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_header,
                                                      country_code_from_header):
