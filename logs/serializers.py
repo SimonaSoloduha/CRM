@@ -17,10 +17,14 @@ def update_status(validated_data, client, status):
     """
     Обновление статусо
     """
+    print('обновляем статус')
+
     validated_data['status'] = status
     if client.status != status:
+        print('client.status', client.status)
         client.status = status
         client.save(update_fields=['status'])
+    print('обновили')
 
 
 def create_new_client(usser_id, domen):
@@ -63,36 +67,22 @@ def check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_hea
     time_zone_changed = False
     time_zone_from_header_changed = False
     country_changed = False
-    print('****', last_log, ip, getz_user, timezone_from_header, country_code_from_header)
 
     now = datetime.now(timezone.utc)
     last_visit_time = last_log.created_at
     delta_time = (now - last_visit_time).total_seconds()
-    print(delta_time)
-
     if delta_time < 5 * 60:
-        print('delta_time')
-
         last_visit_less_5_min = True
     if last_log.ip != ip:
-        print('ip_changed')
-
         ip_changed = True
     if last_log.getz_user != getz_user:
-        print('time_zone_changed')
-
         time_zone_changed = True
     if last_log.getz_user != timezone_from_header:
-        print('time_zone_from_header_changed')
-
         time_zone_from_header_changed = True
     if last_log.country.name != country_code_from_header:
-        print('country_changed')
-
         country_changed = True
     if last_visit_less_5_min or ip_changed or time_zone_changed or time_zone_from_header_changed or \
             country_changed:
-        print('Не даем')
         return True
 
 
@@ -170,9 +160,9 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
 
                 if check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_header,
                                                      country_code_from_header):
+                    print('step 3-2')
                     # Проверка не пройдена, изменяем статус клиента на 'USER BAN' и добавляем статус лога 'USER BAN'
                     update_status(validated_data, client, status=STATUS_USER_BAN)
-                    print('step 3-2')
 
                 else:
                     print('step 4')
