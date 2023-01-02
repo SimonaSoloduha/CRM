@@ -57,6 +57,10 @@ thead th a:link, tfoot td {
     background: url(../../icons/duplicate.png) 0 1px no-repeat;
 }
 
+.loglink {
+    background: url(../../icons/log1.png) 0 1px no-repeat;
+}
+
 .tablelink {
     padding: 3px 10px 10px 10px;
     margin-right: 5px;

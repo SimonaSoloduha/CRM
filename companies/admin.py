@@ -40,7 +40,8 @@ class CompanyAdmin(admin.ModelAdmin):
         return format_html(
             '<a class="fixlink tablelink" href="/admin/companies/company/{}/change/"></a><a class="deletelink tablelink" '
             'href="/admin/companies/company/{}/delete/"></a><a class="duplicatelink tablelink" href="/duplicate/{'
-            '}/"></a>', obj.id, obj.id, obj.id)
+            '}/"></a><a class="loglink tablelink" href="/admin/logs/log/?company__id__exact={}"></a>',
+            obj.id, obj.id, obj.id, obj.id, )
 
     list_display = ('name',
                     'domen',
@@ -50,6 +51,7 @@ class CompanyAdmin(admin.ModelAdmin):
                     'count_successful_filter_2',
                     'control_panel')
     change_form_template = "company/change_form_company.html"
+    change_list_template = "company/change_list_company.html"
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size': 50})},
         models.ManyToManyField: {'widget': CheckboxSelectMultiple(attrs={'class': 'checkbox-countries'})}
@@ -73,8 +75,21 @@ class CompanyAdmin(admin.ModelAdmin):
         )}),
     )
     list_display_links = ('name',)
+    list_per_page = 2
     actions = None
     search_fields = ('name', 'domen',)
+
+    class Media:
+        js = ("js/company/pagination.js",)
+
+    def changelist_view(self, request, extra_context=None):
+        request.GET = request.GET.copy()
+        try:
+            page_param = int(request.GET['list_per_page'])
+            self.list_per_page = page_param
+        except Exception:
+            pass
+        return super(CompanyAdmin, self).changelist_view(request, extra_context)
 
 
 admin.site.register(Company, CompanyAdmin)
