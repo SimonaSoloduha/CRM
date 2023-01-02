@@ -1,9 +1,7 @@
 from datetime import datetime, timezone
 
 from rest_framework import serializers
-from django.core.exceptions import ObjectDoesNotExist
 
-import users
 from companies.models import Company
 from countries.models import Country
 from logs.models import Log, STATUS_STOP_TIMEZONE, STATUS_SUCCESSFUL
@@ -24,19 +22,13 @@ def update_status(validated_data, client, status):
         client.save(update_fields=['status'])
 
 
-def create_new_client(usser_id, domen):
+def create_new_client(usser_id, company):
     """
     Создаем нового клиента с usser_id и domen из request и статусом 'NOT HAVE IN DB'
     """
     user, created = User.objects.get_or_create(
         username=usser_id,
         password=usser_id)
-    try:
-        # Если есть компания с доменом киента - добавляем клиенту компанию
-        company = Company.objects.get(domen=domen)
-    except ObjectDoesNotExist:
-        # Если нет компании с доменом киента - ставим пропуск
-        company = None
     client = Client.objects.create(
         user=user,
         usser_id=usser_id,
@@ -131,6 +123,15 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         usser_id = validated_data.get('usser_id')
         # domen
         domen = validated_data.get('domen')
+        # company
+        try:
+            # Если есть компания с доменом - добавляем логу компанию
+            company = Company.objects.get(domen=domen)
+        except Company.DoesNotExist:
+            # Если нет компании с доменом киента - ставим пропуск
+            company = None
+        validated_data['company'] = company
+
         try:
             # Клиент есть в БД, проверяем статусы 'USER BAN' и 'DEVICE BANNED'
             client = Client.objects.get(usser_id=usser_id)
@@ -172,11 +173,11 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                         # изменяем статус клиента на 'USER BAN' и добавляем статус лога STOP TIME ZONE
                         validated_data['filter_one_time_zone'] = STATUS_STOP_TIMEZONE
 
-        except users.models.Client.DoesNotExist:
+        except Client.DoesNotExist:
 
             # Клиента нет в БД
             # Создаем клиента и присваиваем клиенту и логу статус 'NOT HAVE IN DB'
-            client = create_new_client(usser_id, domen)
+            client = create_new_client(usser_id, company)
             validated_data['client'] = client
             update_status(validated_data, client, status=STATUS_NOT_HAVE_IN_DB)
             # Go to filter one
@@ -187,7 +188,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                 if check_filter_one_time_zone(getz_user, country_time_zones, country_user, сompany_countries):
                     validated_data['filter_one_time_zone'] = STATUS_SUCCESSFUL
             except AttributeError:
-                # Нет компании в БД
+                # У компании нет открытых стран
                 pass
 
         return Log.objects.create(**validated_data)
