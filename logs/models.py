@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from companies.models import Company
 from countries.models import Country
 from users.models import Client, STATUS_NOT_HAVE_IN_DB, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_RETRY_USER, \
     STATUS_VIRTUAL_DEVICE
@@ -15,11 +16,15 @@ class Log(models.Model):
     ip = models.CharField(max_length=100, blank=True, verbose_name=_('ip'))
     getz_user = models.CharField(max_length=100, verbose_name=_('getz'))
     getr_user = models.CharField(max_length=255, verbose_name=_('getr'))
-    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name=_('country'))
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name=_('country'),
+                                related_name='logs')
     domen = models.CharField(max_length=255, verbose_name=_('domen'))
     packege_id = models.CharField(max_length=255, verbose_name=_('packege_id'))
     usser_id = models.CharField(max_length=255, verbose_name=_('usser_id'))
-    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, verbose_name=_('client'))
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, verbose_name=_('client'),
+                               related_name='logs')
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, verbose_name=_('company'),
+                                related_name='logs')
     utm_medium = models.CharField(max_length=255, default='organic', verbose_name=_('utm_medium'))
     user_agent = models.CharField(max_length=255, verbose_name=_('user_agent'))
     STATUS_CHOICES = [

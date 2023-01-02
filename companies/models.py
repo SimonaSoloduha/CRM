@@ -19,3 +19,20 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_logs(self):
+        return self.logs.all()
+
+    def get_logs_count(self):
+        return self.get_logs().count()
+
+    def get_logs_successful_count(self):
+        return self.get_logs().filter(final=True).count()
+
+    def get_logs_successful_filter_1_count(self):
+        from logs.models import STATUS_SUCCESSFUL
+        return self.get_logs().filter(filter_one_time_zone=STATUS_SUCCESSFUL).count()
+
+    def get_logs_successful_filter_2_count(self):
+        from logs.models import STATUS_SUCCESSFUL
+        return self.get_logs().filter(filter_two_cheker=STATUS_SUCCESSFUL).count()
