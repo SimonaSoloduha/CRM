@@ -119,8 +119,8 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             validated_data['ip'] = ip
         if not ip:
             validated_data['detail_status'] = 'Не удалось извлечь IP '
-        ip = '80.90.237.83'
-        validated_data['ip'] = ip
+        # ip = '80.90.237.83'
+        # validated_data['ip'] = ip
         # country
         location = get_location_data(ip)
         country_code_from_header = location['country_code']
