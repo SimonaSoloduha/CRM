@@ -28,15 +28,6 @@ thead th a:link, tfoot td {
     color: #000000;
 }
 
-
-/* ACTION ICONS */
-.changelink, .inlinechangelink {
-    padding: 0px  10px 10px 10px !important;
-    margin: 5px;
-    background: url(../../icons/auto_fix_high.png) 0 1px no-repeat !important;
-    height: 10px;
-}
-
 /* RELATED WIDGET WRAPPER */
 .related-widget-wrapper {
     float: none !important;

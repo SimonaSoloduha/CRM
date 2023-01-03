@@ -47,3 +47,5 @@ admin.site.unregister(PasswordExpiry)
 admin.site.unregister(PasswordHistory)
 admin.site.unregister(SignupCode)
 admin.site.unregister(Site)
+admin.autodiscover()
+admin.site.enable_nav_sidebar = False
