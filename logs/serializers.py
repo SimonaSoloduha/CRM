@@ -140,10 +140,6 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         domen = validated_data.get('domen')
         # detail_status
         validated_data['detail_status'] = ''
-        # filter_one_time_zone
-        validated_data['filter_one_time_zone'] = STATUS_FILTER_NOT_STARTED
-        # filter_two_cheker
-        validated_data['filter_two_cheker'] = STATUS_FILTER_NOT_STARTED
         # company
         try:
             # Если есть компания с доменом - добавляем логу компанию
@@ -153,7 +149,18 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             company = None
             validated_data['detail_status'] += ' Не удалось извлечь IP /'
         validated_data['company'] = company
-
+        # filters
+        if company:
+            if company.active_filter_one_time_zone:
+                # Если фильтр 1 включен
+                validated_data['filter_one_time_zone'] = STATUS_FILTER_NOT_STARTED
+            else:
+                validated_data['filter_one_time_zone'] = STATUS_FILTER_OFF
+            if company.filter_two_cheker:
+                # Если фильтр 2 включен
+                validated_data['filter_two_cheker'] = STATUS_FILTER_NOT_STARTED
+            else:
+                validated_data['filter_two_cheker'] = STATUS_FILTER_OFF
         try:
             # Клиент есть в БД, проверяем статусы 'USER BAN' и 'DEVICE BANNED'
             client = Client.objects.get(usser_id=usser_id)

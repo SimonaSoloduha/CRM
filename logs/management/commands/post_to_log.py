@@ -24,11 +24,11 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f'Done!  {req}'))
 
 #
-# data = {
-#     "domen": "domen.com",
-#     "packege_id": "packageName",
-#     "usser_id": "XXXXXXX",
-#     "getz_user": "Europe/Kiev",
-#     "getr_user": "utm_source=google-play",
-#     "utm_medium": "organic"
-# }
+data = {
+    "domen": "domen.com",
+    "packege_id": "packageName",
+    "usser_id": "XXXXXXX",
+    "getz_user": "Europe/Kiev",
+    "getr_user": "utm_source=google-play",
+    "utm_medium": "organic"
+}
