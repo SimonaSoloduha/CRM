@@ -1,17 +1,14 @@
 :root {
-  --primary: #828282;
+  --primary: #3B3D4A;
   --secondary: #3B3D4A;
   --accent: #CE0E0E;
+  --link-fg: #215b77;
   }
 
 .login .form-row #id_number {
     padding: 8px;
     width: 100%;
     box-sizing: border-box;
-}
-
-div.breadcrumbs {
-    background: #828282;
 }
 
 /* MODULES */
