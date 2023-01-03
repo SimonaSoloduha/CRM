@@ -7,6 +7,8 @@ from users.models import Client, STATUS_NOT_HAVE_IN_DB, STATUS_USER_BAN, STATUS_
     STATUS_VIRTUAL_DEVICE
 
 STATUS_SUCCESSFUL = 'SUCCESSFUL'
+STATUS_FILTER_OFF = 'FILTER OFF'
+STATUS_FILTER_NOT_STARTED = 'FILTER NOT STARTED'
 STATUS_STOP_TIMEZONE = 'Stop TimeZone'
 STATUS_STOP_MCHECKER = 'Stop Mchecker'
 
@@ -15,6 +17,7 @@ class Log(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     ip = models.CharField(max_length=100, blank=True, verbose_name=_('ip'))
     getz_user = models.CharField(max_length=100, verbose_name=_('getz'))
+    timezone_from_header = models.CharField(max_length=100, blank=True, verbose_name=_('timezone_from_header'))
     getr_user = models.CharField(max_length=255, verbose_name=_('getr'))
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name=_('country'),
                                 related_name='logs')
@@ -40,24 +43,29 @@ class Log(models.Model):
         verbose_name=_('status'),
         blank=True,
     )
+    detail_status = models.TextField(blank=True, verbose_name=_('detail_status'))
     FILTER_ONE_CHOICES = [
         (STATUS_STOP_TIMEZONE, STATUS_STOP_TIMEZONE),
         (STATUS_SUCCESSFUL, STATUS_SUCCESSFUL),
+        (STATUS_FILTER_OFF, STATUS_FILTER_OFF),
+        (STATUS_FILTER_NOT_STARTED, STATUS_FILTER_NOT_STARTED),
     ]
     filter_one_time_zone = models.CharField(
         max_length=20,
         choices=FILTER_ONE_CHOICES,
-        verbose_name=_('filter_one_time_zone'),
+        verbose_name=_('filter 1'),
         blank=True,
     )
     FILTER_TWO_CHOICES = [
         (STATUS_STOP_MCHECKER, STATUS_STOP_MCHECKER),
         (STATUS_SUCCESSFUL, STATUS_SUCCESSFUL),
+        (STATUS_FILTER_OFF, STATUS_FILTER_OFF),
+        (STATUS_FILTER_NOT_STARTED, STATUS_FILTER_NOT_STARTED),
     ]
     filter_two_cheker = models.CharField(
         max_length=20,
         choices=FILTER_TWO_CHOICES,
-        verbose_name=_('filter_two_cheker'),
+        verbose_name=_('filter 2'),
         blank=True,
     )
     final = models.BooleanField(default=False, verbose_name=_('final'))
