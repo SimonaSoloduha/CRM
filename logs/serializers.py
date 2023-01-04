@@ -1,6 +1,7 @@
 from django.db import transaction
 
 from rest_framework import serializers
+from django.shortcuts import redirect
 
 from companies.models import Company
 from countries.models import Country
@@ -50,6 +51,10 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         domen = validated_data.get('domen')
         # detail_status
         validated_data['detail_status'] = ''
+        req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
+        response = redirect(req_test_url)
+        # print(response)
+        validated_data['detail_status'] += response
         # company
         try:
             # Если есть компания с доменом - добавляем логу компанию
