@@ -1,4 +1,5 @@
 import json
+import bs4
 
 from crm.celery import app
 from crm.settings import ABSTRACT_API_URL
@@ -23,14 +24,17 @@ def get_location_data(ip_user):
 @app.task
 def get_check_data():
     """
-    Получение кода старны country_code и таймзоны timezone по ip
+    Проверка по Magic Checker
+    Ответы:
+    True - пройдена
+    False - не пройдена
     """
     req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
     response = requests.get(req_test_url)
-    # print(response.content)
-    # res = json.loads(response.content.decode('utf-8'))
-    # response = HttpResponseRedirect(redirect_to=req_test_url)
-    # print(response)
-    # validated_data['detail_status'] += str(response)
-    return response.content
+    html = bs4.BeautifulSoup(response.text, features="lxml")
+    res = ''.join(html.body.text.split())
+    if res == 'YES':
+        return True
+    else:
+        return False
 

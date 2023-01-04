@@ -5,7 +5,8 @@ from rest_framework import serializers
 
 from companies.models import Company
 from countries.models import Country
-from logs.models import Log, STATUS_STOP_TIMEZONE, STATUS_SUCCESSFUL, STATUS_FILTER_OFF, STATUS_FILTER_NOT_STARTED
+from logs.models import Log, STATUS_STOP_TIMEZONE, STATUS_SUCCESSFUL, STATUS_FILTER_OFF, STATUS_FILTER_NOT_STARTED, \
+    STATUS_STOP_MCHECKER
 from logs.tasks import get_location_data, get_check_data
 from logs.utils import update_status, check_update_date_from_last_visit, check_update_user_agent, \
     check_filter_one_time_zone, create_new_client
@@ -51,10 +52,6 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         domen = validated_data.get('domen')
         # detail_status
         validated_data['detail_status'] = ''
-
-        check_data = get_check_data()
-        validated_data['detail_status'] += str(check_data)
-        # print(check_data)
         # company
         try:
             # Если есть компания с доменом - добавляем логу компанию
@@ -114,14 +111,44 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                         if check_filter_one_time_zone(getz_user, country_time_zones, country_user, сompany_countries, validated_data):
                             validated_data['filter_one_time_zone'] = STATUS_SUCCESSFUL
                             # Переход на фильтр 2
+                            if client.сompany.filter_two_cheker:
+                                # Фильтр 2 включен
+                                check_data = get_check_data()
+                                if check_data:
+                                    # фильтр 2 пройден
+                                    validated_data['filter_two_cheker'] = STATUS_SUCCESSFUL
+                                    validated_data['final'] = True
+                                else:
+                                    # фильтр 2 не пройден
+                                    validated_data['filter_two_cheker'] = STATUS_STOP_MCHECKER
+                            else:
+                                # Фильтр 2 отключен
+                                validated_data['filter_two_cheker'] = STATUS_FILTER_OFF
+                                validated_data['final'] = True
+
                         else:
                             # TimeZone НЕ совпадает с TimeZone страны и/или страна НЕ допустима для компании,
                             # изменяем статус клиента на 'USER BAN' и добавляем статус лога STOP TIME ZONE
                             validated_data['filter_one_time_zone'] = STATUS_STOP_TIMEZONE
                     else:
-                        # Если фильтр 2 отключен
+                        # Если фильтр 1 отключен
                         validated_data['filter_one_time_zone'] = STATUS_FILTER_OFF
                         # Переход на фильтр 2
+                        if client.сompany.filter_two_cheker:
+                            # Фильтр 2 включен
+                            check_data = get_check_data()
+                            if check_data:
+                                # фильтр 2 пройден
+                                validated_data['filter_two_cheker'] = STATUS_SUCCESSFUL
+                                validated_data['final'] = True
+
+                            else:
+                                # фильтр 2 не пройден
+                                validated_data['filter_two_cheker'] = STATUS_STOP_MCHECKER
+                        else:
+                            # Фильтр 2 отключен
+                            validated_data['filter_two_cheker'] = STATUS_FILTER_OFF
+                            validated_data['final'] = True
 
         except Client.DoesNotExist:
             # Клиента нет в БД
@@ -138,6 +165,21 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                     сompany_countries = client.сompany.countries.all()
                     if check_filter_one_time_zone(getz_user, country_time_zones, country_user, сompany_countries, validated_data):
                         validated_data['filter_one_time_zone'] = STATUS_SUCCESSFUL
+                        # Переход на фильтр 2
+                        if client.сompany.filter_two_cheker:
+                            # Фильтр 2 включен
+                            check_data = get_check_data()
+                            if check_data:
+                                # фильтр 2 пройден
+                                validated_data['filter_two_cheker'] = STATUS_SUCCESSFUL
+                                validated_data['final'] = True
+                            else:
+                                # фильтр 2 не пройден
+                                validated_data['filter_two_cheker'] = STATUS_STOP_MCHECKER
+                        else:
+                            # Фильтр 2 отключен
+                            validated_data['filter_two_cheker'] = STATUS_FILTER_OFF
+                            validated_data['final'] = True
                     else:
                         validated_data['filter_one_time_zone'] = STATUS_STOP_TIMEZONE
                 except AttributeError:
@@ -145,7 +187,22 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                     # У компании нет открытых стран
                     pass
             else:
-                # Если фильтр 2 отключен
+                # Если фильтр 1 отключен
                 validated_data['filter_one_time_zone'] = STATUS_FILTER_OFF
                 # Переход на фильтр 2
+                if client.сompany.filter_two_cheker:
+                    # Фильтр 2 включен
+                    check_data = get_check_data()
+                    if check_data:
+                        # фильтр 2 пройден
+                        validated_data['filter_two_cheker'] = STATUS_SUCCESSFUL
+                        validated_data['final'] = True
+                    else:
+                        # фильтр 2 не пройден
+                        validated_data['filter_two_cheker'] = STATUS_STOP_MCHECKER
+                else:
+                    # Фильтр 2 отключен
+                    validated_data['filter_two_cheker'] = STATUS_FILTER_OFF
+                    validated_data['final'] = True
+
         return Log.objects.create(**validated_data)
