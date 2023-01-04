@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from django.utils import timezone
 
 from account.auth_backends import User
 from users.models import Client, STATUS_NOT_HAVE_IN_DB
@@ -50,7 +50,7 @@ def check_update_date_from_last_visit(last_log, ip, getz_user, timezone_from_hea
     time_zone_from_header_changed = False
     country_changed = False
 
-    now = datetime.now(timezone.utc)
+    now = timezone.now()
     last_visit_time = last_log.created_at
     delta_time = (now - last_visit_time).total_seconds()
     if delta_time < 5 * 60:

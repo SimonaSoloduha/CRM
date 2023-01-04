@@ -30,8 +30,8 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             validated_data['ip'] = ip
         if not ip:
             validated_data['detail_status'] = 'Не удалось извлечь IP '
-        # ip = '80.90.237.83'
-        # validated_data['ip'] = ip
+        ip = '80.90.237.83'
+        validated_data['ip'] = ip
         # country
         location = get_location_data(ip)
         country_code_from_header = location['country_code']
@@ -53,8 +53,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         validated_data['detail_status'] = ''
         req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
         response = redirect(req_test_url)
-        # print(response)
-        validated_data['detail_status'] += response
+        validated_data['detail_status'] += str(response)
         # company
         try:
             # Если есть компания с доменом - добавляем логу компанию
