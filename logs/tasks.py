@@ -18,3 +18,19 @@ def get_location_data(ip_user):
         'timezone': res['timezone']['name'],
     }
     return data
+
+
+@app.task
+def get_check_data():
+    """
+    Получение кода старны country_code и таймзоны timezone по ip
+    """
+    req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
+    response = requests.get(req_test_url)
+    # print(response.content)
+    # res = json.loads(response.content.decode('utf-8'))
+    # response = HttpResponseRedirect(redirect_to=req_test_url)
+    # print(response)
+    # validated_data['detail_status'] += str(response)
+    return response.content
+

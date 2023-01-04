@@ -1,12 +1,12 @@
 from django.db import transaction
 
 from rest_framework import serializers
-from django.shortcuts import redirect
+
 
 from companies.models import Company
 from countries.models import Country
 from logs.models import Log, STATUS_STOP_TIMEZONE, STATUS_SUCCESSFUL, STATUS_FILTER_OFF, STATUS_FILTER_NOT_STARTED
-from logs.tasks import get_location_data
+from logs.tasks import get_location_data, get_check_data
 from logs.utils import update_status, check_update_date_from_last_visit, check_update_user_agent, \
     check_filter_one_time_zone, create_new_client
 from users.models import Client, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_NOT_HAVE_IN_DB, STATUS_RETRY_USER, \
@@ -30,8 +30,8 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             validated_data['ip'] = ip
         if not ip:
             validated_data['detail_status'] = 'Не удалось извлечь IP '
-        ip = '80.90.237.83'
-        validated_data['ip'] = ip
+        # ip = '80.90.237.83'
+        # validated_data['ip'] = ip
         # country
         location = get_location_data(ip)
         country_code_from_header = location['country_code']
@@ -51,9 +51,10 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         domen = validated_data.get('domen')
         # detail_status
         validated_data['detail_status'] = ''
-        req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
-        response = redirect(req_test_url)
-        validated_data['detail_status'] += str(response)
+
+        check_data = get_check_data()
+        validated_data['detail_status'] += str(check_data)
+        # print(check_data)
         # company
         try:
             # Если есть компания с доменом - добавляем логу компанию
