@@ -122,6 +122,8 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
+        # detail_status
+        self.get_detail_status(validated_data)
         # ip
         ip = self.get_ip(validated_data)
         # location
@@ -140,8 +142,8 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         usser_id = self.get_usser_id(validated_data)
         # domen
         domen = self.get_domen(validated_data)
-        # detail_status
-        self.get_detail_status(validated_data)
+        # # detail_status
+        # self.get_detail_status(validated_data)
         # company
         company = self.get_company(domen, validated_data)
         # filters
