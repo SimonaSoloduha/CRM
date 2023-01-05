@@ -23,9 +23,11 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             ip_adds = self.context.get('request').META['HTTP_X_FORWARDED_FOR'].split(",")
             ip = ip_adds[0]
             validated_data['ip'] = ip
+            validated_data['detail_status'] += self.context.get('request').META
         else:
             ip = self.context.get('request').META['REMOTE_ADDR']
             validated_data['ip'] = ip
+            validated_data['detail_status'] += self.context.get('request').META
         if not ip:
             validated_data['detail_status'] = 'Не удалось извлечь IP '
         # ip = '80.90.237.83'
