@@ -48,6 +48,7 @@ def check_users_status_ban_and_divice_ban(client, validated_data):
         # Статус клиента 'DEVICE BANNED', добавляем статус лога 'DEVICE BANNED'
         update_status(validated_data, client, status=STATUS_DEVICE_BANNED)
         return False
+    return True
 
 
 def check_update_date_from_last_visit(client, last_log, ip, getz_user, timezone_from_header, country_code_from_header,
@@ -92,6 +93,7 @@ def check_update_date_from_last_visit(client, last_log, ip, getz_user, timezone_
         validated_data['detail_status'] += ' Изменен country_code_from_header /'
         return False
     update_status(validated_data, client, status=STATUS_RETRY_USER)
+    return True
 
 
 def check_update_user_agent(client, last_log, user_agent, validated_data):
@@ -101,6 +103,7 @@ def check_update_user_agent(client, last_log, user_agent, validated_data):
     if last_log.user_agent != user_agent:
         update_status(validated_data, client, status=STATUS_VIRTUAL_DEVICE)
         return False
+    return True
 
 
 def check_filter_one_time_zone(client, country, getz_user, validated_data):
