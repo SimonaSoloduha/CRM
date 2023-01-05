@@ -142,13 +142,13 @@ def check_filter_one_time_zone(client, country, getz_user, validated_data):
         return True
 
 
-def check_filter_two_cheker(client, validated_data):
+def check_filter_two_cheker(url, user_agent, client, validated_data):
     """
     Проверка клиента по MagicChecker
     """
     if client.сompany.filter_two_cheker:
         # Фильтр 2 включен
-        check_data = get_check_data()
+        check_data = get_check_data(url, user_agent)
         if check_data:
             # фильтр 2 пройден
             validated_data['filter_two_cheker'] = STATUS_SUCCESSFUL

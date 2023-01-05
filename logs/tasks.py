@@ -22,7 +22,7 @@ def get_location_data(ip_user):
 
 
 @app.task
-def get_check_data():
+def get_check_data(url, user_agent):
     """
     Проверка по Magic Checker
     Ответы:
@@ -30,8 +30,13 @@ def get_check_data():
     False - не пройдена
     """
     # req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
-    req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index.php'
-    response = requests.get(req_test_url)
+    url_magic = 'https://shrouded-ravine-59969.herokuapp.com/index.php'
+    session = requests.Session()
+    response = session.get(
+        url_magic, headers={
+            'User-Agent': user_agent,
+            'url': url,
+        }, verify=False)
     res = response.text
     # html = bs4.BeautifulSoup(response.text, features="lxml")
     # res = ''.join(html.body.text.split())

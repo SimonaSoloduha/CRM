@@ -144,6 +144,8 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
         company = self.get_company(domen, validated_data)
         # filters
         self.get_filters_status(company, validated_data)
+        # url
+        url = f'{domen}/?packageid={validated_data.get("packageid")}&usserid={usser_id}&getz={getz_user}&getr={validated_data.get("getr")}&utm_medium={validated_data.get("utm_medium")}'
         try:
             # Клиент есть в БД
             client = Client.objects.get(usser_id=usser_id)
@@ -158,7 +160,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
                         # Go to filter 1
                         if check_filter_one_time_zone(client, country, getz_user, validated_data):
                             # Go to filter 2
-                            if check_filter_two_cheker(client, validated_data):
+                            if check_filter_two_cheker(url, user_agent, client, validated_data):
                                 # фильтр 2 пройден или отключен
                                 validated_data['final'] = True
 
@@ -168,7 +170,7 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
             # Go to filter 1
             if check_filter_one_time_zone(client, country, getz_user, validated_data):
                 # Go to filter 2
-                if check_filter_two_cheker(client, validated_data):
+                if check_filter_two_cheker(url, user_agent, client, validated_data):
                     validated_data['final'] = True
 
         return Log.objects.create(**validated_data)
