@@ -29,12 +29,17 @@ def get_check_data():
     True - пройдена
     False - не пройдена
     """
-    req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
+    # req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
+    req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index.php'
     response = requests.get(req_test_url)
-    html = bs4.BeautifulSoup(response.text, features="lxml")
-    res = ''.join(html.body.text.split())
+    res = response.text
+    # html = bs4.BeautifulSoup(response.text, features="lxml")
+    # res = ''.join(html.body.text.split())
     if res == 'YES':
         return True
+    elif res == 'MAIN':
+        return False
     else:
+        # Лог
         return False
 
