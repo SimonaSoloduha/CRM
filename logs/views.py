@@ -4,6 +4,8 @@ from rest_framework.permissions import AllowAny
 from logs.models import Log
 from logs.serializers import LogSerializer
 from rest_framework.pagination import PageNumberPagination
+from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -19,3 +21,14 @@ class LogViewSet(viewsets.ModelViewSet):
     serializer_class = LogSerializer
     permission_classes = [AllowAny]
     pagination_class = StandardResultsSetPagination
+
+    def create(self, request, *args, **kwargs):
+        response = super(LogViewSet, self).create(request, *args, **kwargs)
+        print('yuy')
+        return HttpResponseRedirect(redirect_to='https://shrouded-ravine-59969.herokuapp.com/index_test.php')
+
+
+def check(request):
+    url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
+    response = redirect(url)
+    return response

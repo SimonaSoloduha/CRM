@@ -20,22 +20,25 @@ class Command(BaseCommand):
         #     'utm_medium': 'organic',
         # }
         # req = requests.post("https://shrouded-ravine-59969.herokuapp.com/index.php", data=data)
-        ip = '80.90.237.83'
+        ip = '10.1.24.126'
+        host = '90.324'
+        # host = 'h83.onetel237.onetelecom.od.ua'
         user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
         url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
         session = requests.Session()
         response = session.get(
             url, headers={
-                'USER IP': ip,
-                'COUNTRY': 'UA',
+                'Accept-Language': 'us',
+                'REMOTE_ADDR': ip,
+                # 'COUNTRY': 'UA',
                 # 'USER IP': '80.90.237.83',
                 'User-Agent': user_agent,
                 'URL': 'domen.com/?packageid=com.vexxhalkaskplay&usserid=661a1d49-6cff-43cb-9aa8-a52806e804ba&getz=Asia/Krasnoyarsk&getr=utm_source=google-play&utm_medium=organic'
             }, verify=False)
         print(response)
-        # html = bs4.BeautifulSoup(response.text, features="lxml")
-        # res = ''.join(html.body.text.split())
-        # print(res, '*******')
+        html = bs4.BeautifulSoup(response.text, features="lxml")
+        res = ''.join(html.body.text.split())
+        print(res, '*******')
 
         # self.stdout.write(self.style.SUCCESS(f'Done!  {resp}' "\n"))
 
