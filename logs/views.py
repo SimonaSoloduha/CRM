@@ -25,7 +25,7 @@ class LogViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         response = super(LogViewSet, self).create(request, *args, **kwargs)
         print('yuy')
-        return HttpResponseRedirect(redirect_to='https://shrouded-ravine-59969.herokuapp.com/index_test.php')
+        return redirect(to='https://shrouded-ravine-59969.herokuapp.com/index_test.php')
 
 
 def check(request):
