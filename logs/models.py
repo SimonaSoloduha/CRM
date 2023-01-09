@@ -15,6 +15,7 @@ STATUS_STOP_MCHECKER = 'Stop Mchecker'
 
 class Log(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    url = models.TextField(blank=True, verbose_name=_('url'))
     ip = models.CharField(max_length=100, blank=True, verbose_name=_('ip'))
     getz_user = models.CharField(max_length=100, verbose_name=_('getz'))
     timezone_from_header = models.CharField(max_length=100, blank=True, verbose_name=_('timezone_from_header'))

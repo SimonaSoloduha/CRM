@@ -24,13 +24,14 @@ class Command(BaseCommand):
         host = '90.324'
         # host = 'h83.onetel237.onetelecom.od.ua'
         user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
-        url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
+        url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php?http://domen.com/?packageid=com.vexxhalkaskplay&usserid=661a1d49-6cff-43cb-9aa8-a52806e804ba&getz=Asia/Krasnoyarsk&getr=utm_source=google-play&utm_medium=organic'
         session = requests.Session()
         response = session.get(
             url, headers={
                 'Accept-Language': 'us',
                 'REMOTE_ADDR': ip,
-                # 'COUNTRY': 'UA',
+                'Referer': 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
+                'X-Country-Code': 'UA',
                 # 'USER IP': '80.90.237.83',
                 'User-Agent': user_agent,
                 'URL': 'domen.com/?packageid=com.vexxhalkaskplay&usserid=661a1d49-6cff-43cb-9aa8-a52806e804ba&getz=Asia/Krasnoyarsk&getr=utm_source=google-play&utm_medium=organic'
@@ -60,3 +61,5 @@ class Command(BaseCommand):
 #     "getr_user": "utm_source=google-play",
 #     "utm_medium": "organic"
 # }
+# https://shrouded-ravine-59969.herokuapp.com/index_test.php?domen=domen.com/%3Fpackageid=com.vexxhalkaskplay&usserid=661a1d443c9aa8-a52806e804ba&getz=Europe/Kiev&getr=utm_source=google-play&utm_medium=organic
+# 127.0.0.1:8000/logs/?domen=domen.com/%3Fpackageid=com.vexxhalkaskplay&usserid=661ad443c9aa8-a52806e804ba&getz=Europe/Kiev&getr=utm_source=google-play&utm_medium=organic

@@ -2,10 +2,132 @@ from django.utils import timezone
 
 from account.auth_backends import User
 
-from logs.models import STATUS_SUCCESSFUL, STATUS_FILTER_OFF, STATUS_STOP_TIMEZONE, STATUS_STOP_MCHECKER
-from logs.tasks import get_check_data
+from companies.models import Company
+from countries.models import Country
+from logs.models import STATUS_SUCCESSFUL, STATUS_FILTER_OFF, STATUS_STOP_TIMEZONE, STATUS_FILTER_NOT_STARTED
 from users.models import Client, STATUS_NOT_HAVE_IN_DB, STATUS_USER_BAN, STATUS_DEVICE_BANNED, STATUS_RETRY_USER, \
     STATUS_VIRTUAL_DEVICE
+
+
+def get_ip(context, validated_data):
+    """
+    Извление ip
+    """
+    if 'HTTP_X_FORWARDED_FOR' in context.get('request').META:
+        ip_adds = context.get('request').META['HTTP_X_FORWARDED_FOR'].split(",")
+        ip = ip_adds[0]
+        validated_data['ip'] = ip
+    else:
+        ip = context.get('request').META['REMOTE_ADDR']
+        validated_data['ip'] = ip
+    if not ip:
+        validated_data['detail_status'] = 'Не удалось извлечь IP '
+    # ip = '80.90.237.83'
+    # validated_data['ip'] = ip
+    return ip
+
+
+def get_country(country_code_from_header, validated_data):
+    """
+    Извление country
+    """
+    country = Country.objects.get(name=country_code_from_header)
+    validated_data['country'] = country
+    return country
+
+
+def get_country_code_from_header(location):
+    """
+    Извление country_code_from_header
+    """
+    country_code_from_header = location['country_code']
+    return country_code_from_header
+
+
+def get_timezone_from_headers(location, validated_data):
+    """
+    Извление timezone_from_header
+    """
+    timezone_from_header = location['timezone']
+    validated_data['timezone_from_header'] = timezone_from_header
+    return timezone_from_header
+
+
+def get_getz_user(validated_data):
+    """
+    Извление getz_user
+    """
+    getz_user = validated_data.get('getz_user')
+    return getz_user
+
+
+def get_user_agent(context, validated_data):
+    """
+    Извление USER_AGENT
+    """
+    user_agent = context.get('request').META.get("HTTP_USER_AGENT")
+    validated_data['user_agent'] = user_agent
+    return user_agent
+
+
+def get_usser_id(validated_data):
+    """
+    Извление usser_id
+    """
+    usser_id = validated_data.get('usser_id')
+    return usser_id
+
+
+def get_domen(validated_data):
+    """
+    Извление domen
+    """
+    domen = validated_data.get('domen')
+    return domen
+
+
+def get_url(validated_data):
+    validated_data['url'] = validated_data.get('url')
+
+
+def get_detail_status(validated_data):
+    """
+    Создание пустого detail_status
+    """
+    validated_data['detail_status'] = ''
+
+
+def get_company(domen, validated_data):
+    """
+    Поиск компании по домену
+    """
+    try:
+        # Если есть компания с доменом - добавляем логу компанию
+        company = Company.objects.get(domen=domen)
+    except Company.DoesNotExist:
+        # Если нет компании с доменом киента - ставим пропуск
+        company = None
+        validated_data['detail_status'] += 'нет компании с доменом киента /'
+    validated_data['company'] = company
+    return company
+
+
+def get_filters_status(company, validated_data):
+    """
+    Статус фильтров (включены или отключены)
+    """
+    if company:
+        if company.active_filter_one_time_zone:
+            validated_data['filter_one_time_zone'] = STATUS_FILTER_NOT_STARTED
+        else:
+            validated_data['filter_one_time_zone'] = STATUS_FILTER_OFF
+        if company.filter_two_cheker:
+            validated_data['filter_two_cheker'] = STATUS_FILTER_NOT_STARTED
+        else:
+            validated_data['filter_two_cheker'] = STATUS_FILTER_OFF
+    else:
+        validated_data['filter_one_time_zone'] = STATUS_FILTER_NOT_STARTED
+        validated_data['filter_two_cheker'] = STATUS_FILTER_NOT_STARTED
 
 
 def update_status(validated_data, client, status):
@@ -142,20 +264,12 @@ def check_filter_one_time_zone(client, country, getz_user, validated_data):
         return True
 
 
-def check_filter_two_cheker(url, user_agent, client, validated_data):
+def check_filter_two_cheker_off(client, validated_data):
     """
-    Проверка клиента по MagicChecker
+    Проверка включен и фильтр 2 (MagicChecker), если отключен возвращаем True, в обратном случае = False
     """
     if client.сompany.filter_two_cheker:
         # Фильтр 2 включен
-        check_data = get_check_data(url, user_agent)
-        if check_data:
-            # фильтр 2 пройден
-            validated_data['filter_two_cheker'] = STATUS_SUCCESSFUL
-            return True
-        else:
-            # фильтр 2 не пройден
-            validated_data['filter_two_cheker'] = STATUS_STOP_MCHECKER
             return False
     else:
         # Фильтр 2 отключен

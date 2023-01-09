@@ -1,5 +1,4 @@
 import json
-import bs4
 
 from crm.celery import app
 from crm.settings import ABSTRACT_API_URL
@@ -19,32 +18,3 @@ def get_location_data(ip_user):
         'timezone': res['timezone']['name'],
     }
     return data
-
-
-@app.task
-def get_check_data(url, user_agent):
-    """
-    Проверка по Magic Checker
-    Ответы:
-    True - пройдена
-    False - не пройдена
-    """
-    # req_test_url = 'https://shrouded-ravine-59969.herokuapp.com/index_test.php'
-    url_magic = 'https://shrouded-ravine-59969.herokuapp.com/index.php'
-    session = requests.Session()
-    response = session.get(
-        url_magic, headers={
-            'User-Agent': user_agent,
-            'url': url,
-        }, verify=False)
-    res = response.text
-    # html = bs4.BeautifulSoup(response.text, features="lxml")
-    # res = ''.join(html.body.text.split())
-    if res == 'YES':
-        return True
-    elif res == 'MAIN':
-        return False
-    else:
-        # Лог
-        return False
-
