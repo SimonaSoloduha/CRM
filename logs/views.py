@@ -1,5 +1,6 @@
 from rest_framework.permissions import AllowAny
-from logs.models import Log, STATUS_FILTER_OFF, STATUS_SUCCESSFUL, STATUS_STOP_MCHECKER, STATUS_FILTER_NOT_STARTED
+from logs.models import Log, STATUS_SUCCESSFUL, STATUS_STOP_MCHECKER, STATUS_FILTER_NOT_STARTED, \
+    STATUS_STOP_TIMEZONE
 from logs.serializers import LogSerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import CreateAPIView, UpdateAPIView
@@ -68,7 +69,7 @@ class LogViewSet(CreateAPIView):
         new.save()
 
     def finalize_response(self, request, response, *args, **kwargs):
-        if self.filter_one_time_zone_res != STATUS_FILTER_NOT_STARTED and self.filter_two_cheker_res != STATUS_FILTER_OFF\
+        if self.filter_one_time_zone_res != STATUS_FILTER_NOT_STARTED and self.filter_two_cheker_res != STATUS_STOP_TIMEZONE\
                 and self.user_status != STATUS_USER_BAN and self.user_status != STATUS_DEVICE_BANNED and self.user_status != STATUS_VIRTUAL_DEVICE:
             url = f'https://shrouded-ravine-59969.herokuapp.com/index.php?{self.user_url}?&id={self.new_id}'
             response = redirect(url)
