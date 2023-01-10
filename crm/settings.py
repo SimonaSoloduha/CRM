@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rangefilter',
+    'import_export',
 
     'account',
     'companies',
@@ -204,3 +205,7 @@ USE_X_FORWARDED_HOST = True
 # ABSTRACT settings (For get locations info from request)
 ABSTRACT_IP_KEY = env('ABSTRACT_IP_KEY')
 ABSTRACT_API_URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + ABSTRACT_IP_KEY
+
+# IMPORT/EXPORT settings
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+IMPORT_EXPORT_SKIP_ADMIN_LOG = True

@@ -4,18 +4,50 @@ from django.utils.html import format_html
 from django.db import models
 from django.forms import TextInput, CheckboxSelectMultiple
 from companies.models import Company
+from import_export.admin import ImportExportModelAdmin
 
 from rangefilter.filters import DateRangeFilter
+from import_export import resources
+from import_export.fields import Field
+
+from companies.utils import get_percent
 
 
-def get_percent(count_all, count_true):
-    percent = 0
-    if count_all and count_true:
-        percent = (count_true / count_all) * 100
-    return f'{count_true} / {round(percent, 2)}%'
+class CompanyResource(resources.ModelResource):
+    name = Field(attribute='name', column_name='Название')
+    domen = Field(attribute='domen', column_name='Домен')
+    count_requests = Field(column_name='Количество запросов')
+    count_successful_requests = Field(column_name='Количество успешных запросов')
+    count_successful_filter_1 = Field(column_name='Количество прошедших фильтр 1')
+    count_successful_filter_2 = Field(column_name='Количество прошедших фильтр 2')
+
+    class Meta:
+        model = Company
+        fields = ('name',
+                  'domen',
+                  'count_requests',
+                  'count_successful_requests',
+                  'count_successful_filter_1',
+                  'count_successful_filter_2',)
+
+    def dehydrate_count_requests(self, company):
+        return company.get_logs_count()
+
+    def dehydrate_count_successful_requests(self, company):
+        return company.get_logs_successful_count()
+
+    def dehydrate_count_successful_filter_1(self, company):
+        count_all = company.get_logs_count()
+        count_true = company.get_logs_successful_filter_1_count()
+        return get_percent(count_all, count_true)
+
+    def dehydrate_count_successful_filter_2(self, company):
+        count_all = company.get_logs_count()
+        count_true = company.get_logs_successful_filter_2_count()
+        return get_percent(count_all, count_true)
 
 
-class CompanyAdmin(admin.ModelAdmin):
+class CompanyAdmin(ImportExportModelAdmin):
 
     @staticmethod
     def count_requests(obj):
@@ -83,6 +115,8 @@ class CompanyAdmin(admin.ModelAdmin):
     list_filter = (
         ('created_at', DateRangeFilter),
     )
+
+    resource_classes = [CompanyResource]
 
     class Media:
         js = ("js/company/pagination.js",)
