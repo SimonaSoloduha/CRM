@@ -5,6 +5,8 @@ from django.db import models
 from django.forms import TextInput, CheckboxSelectMultiple
 from companies.models import Company
 
+from rangefilter.filters import DateRangeFilter
+
 
 def get_percent(count_all, count_true):
     percent = 0
@@ -75,17 +77,19 @@ class CompanyAdmin(admin.ModelAdmin):
         )}),
     )
     list_display_links = ('name',)
-    list_per_page = 2
+    list_per_page = 50
     actions = None
     search_fields = ('name', 'domen',)
+    list_filter = (
+        ('created_at', DateRangeFilter),
+    )
 
     class Media:
         js = ("js/company/pagination.js",)
 
     def changelist_view(self, request, extra_context=None):
-        request.GET = request.GET.copy()
         try:
-            page_param = int(request.GET['list_per_page'])
+            page_param = int(request.GET['e'])
             self.list_per_page = page_param
         except Exception:
             pass

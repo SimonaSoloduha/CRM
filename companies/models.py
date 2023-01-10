@@ -12,6 +12,7 @@ class Company(models.Model):
     countries = models.ManyToManyField(Country, verbose_name=_('countries'), related_name='company')
     active_filter_one_time_zone = models.BooleanField(default=False, verbose_name=_('active_filter_one_time_zone'))
     filter_two_cheker = models.BooleanField(default=False, verbose_name=_('active_filter_one_time_zone'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     class Meta:
         verbose_name_plural = _('company')

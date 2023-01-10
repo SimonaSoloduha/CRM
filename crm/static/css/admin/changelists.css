@@ -1,0 +1,56 @@
+/* Custom tool bar */
+
+#toolbar, #changelist-filter, .paginator-select, .admindatefilter form {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+#changelist-filter .admindatefilter p, #changelist-filter #controls {
+    padding-right: 30px;
+    margin: 0;
+}
+
+#changelist .paginator-select {
+    padding-left: 45px;
+    border-top: none;
+    border-bottom: none;
+    line-height: 24px;
+    color: var(--body-quiet-color);
+    width: 100%;
+}
+
+#changelist .paginator-select select {
+    border: 1px solid var(--border-color);
+    font-size: 0.8125rem;
+    height: 25px;
+    margin: 10px;
+    vertical-align: middle;
+    background: var(--body-bg);
+    box-shadow: 0 -15px 20px -10px rgb(0 0 0 / 15%) inset;
+    cursor: pointer;
+    color: var(--body-fg);
+}
+
+#changelist-filter h3 {
+    display: none;
+}
+
+#changelist-filter .admindatefilter {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+#toolbar form input {
+    border: 1px solid var(--border-color);
+    font-size: 0.8125rem;
+    padding: 4px 8px;
+    margin: 0;
+    vertical-align: middle;
+    background: var(--body-bg);
+    box-shadow: 0 -15px 20px -10px rgb(0 0 0 / 15%) inset;
+    cursor: pointer;
+    color: var(--body-fg);
+}

@@ -19,7 +19,10 @@ def custom_submit_row(context):
 @register.inclusion_tag('company/pagination_company.html', takes_context=True)
 def custom_pagination_company(context, cl):
     pagination = admin_list.pagination(cl)
-    if 'group_id' in context:
-        params = (('group_id', context['group_id']),)
-        pagination['params'] = params
     return pagination
+
+
+@register.inclusion_tag('company/search_form_company.html',  takes_context=True)
+def search_form_company(context, cl):
+    search_form = admin_list.search_form(cl)
+    return search_form

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'rest_framework',
+    'rangefilter',
 
     'account',
     'companies',

@@ -61,5 +61,6 @@ class Command(BaseCommand):
 #     "getr_user": "utm_source=google-play",
 #     "utm_medium": "organic"
 # }
-# https://shrouded-ravine-59969.herokuapp.com/index_test.php?domen=domen.com/%3Fpackageid=com.vexxhalkaskplay&usserid=661a1d443c9aa8-a52806e804ba&getz=Europe/Kiev&getr=utm_source=google-play&utm_medium=organic
+
+# https://damp-everglades-01529.herokuapp.com/logs/?domen=domen.com/%3Fpackageid=com.vexxhalkaskplay&usserid=ff4f9347625rebgshagfshfvdghf&getz=Europe/Kiev&getr=utm_source=google-play&utm_medium=organic
 # 127.0.0.1:8000/logs/?domen=domen.com/%3Fpackageid=com.vexxhalkaskplay&usserid=661ad443c9aa8-a52806e804ba&getz=Europe/Kiev&getr=utm_source=google-play&utm_medium=organic

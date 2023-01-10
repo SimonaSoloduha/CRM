@@ -10,6 +10,7 @@ class LogAdmin(admin.ModelAdmin):
     search_fields = ('ip',)
     # list_filter = ('filter_one_time_zone', 'filter_two_cheker', 'company', ('created_at', DateFieldListFilter))
     actions = None
+    list_per_page = 50
 
     def get_headers(self, object):
         return f'{object.user_agent.split(" ")[0]}'
