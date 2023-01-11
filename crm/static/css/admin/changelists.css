@@ -8,13 +8,21 @@
 }
 
 
-#changelist-filter .admindatefilter p, #changelist-filter #controls {
-    padding-right: 30px;
+#changelist-filter .admindatefilter p, #changelist-filter .admindatefilter div {
+    padding: 0 15px 0 0;
     margin: 0;
 }
 
+#changelist-filter .admindatefilter {
+    padding-left: 0;
+}
+
+#changelist-filter .admindatefilter p {
+    font-size: 0;
+}
+
 #changelist .paginator-select {
-    padding-left: 45px;
+    padding-left: 5px;
     border-top: none;
     border-bottom: none;
     line-height: 24px;
@@ -22,7 +30,7 @@
     width: 100%;
 }
 
-#changelist .paginator-select select {
+#changelist .paginator-select select, #changelist-filter select {
     border: 1px solid var(--border-color);
     font-size: 0.8125rem;
     height: 25px;
@@ -33,9 +41,14 @@
     cursor: pointer;
     color: var(--body-fg);
 }
+#changelist-filter {
+    margin: 0 0 0 10px;
+}
 
 #changelist-filter h3 {
-    display: none;
+    font-weight: 400;
+    padding: 0 5px;
+    margin-bottom: 10px;
 }
 
 #changelist-filter .admindatefilter {
@@ -53,4 +66,23 @@
     box-shadow: 0 -15px 20px -10px rgb(0 0 0 / 15%) inset;
     cursor: pointer;
     color: var(--body-fg);
+}
+
+
+#changelist-filter ul {
+    padding: 0;
+    padding-left: 5px;
+    line-height: 24px;
+    color: var(--body-quiet-color);
+    width: 100%;
+    border-bottom: none;
+}
+
+#changelist-filter #changelist-filter-clear a {
+    padding: 3px 10px 10px 10px;
+    margin-right: 5px;
+    width: 15px;
+    height: 18px;
+    background: url(../../icons/delete_filter_40.png) 0 1px no-repeat;
+    border-bottom: none;
 }

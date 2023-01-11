@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rangefilter',
+    'django_admin_listfilter_dropdown',
     'import_export',
 
     'account',

@@ -1,0 +1,15 @@
+{% load i18n %}
+  <h3>
+    {% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}
+  </h3>
+<div>
+    <ul>
+        <select class="form-control" style="width: 95%;margin-left: 2%;"
+                onchange="go_from_select(this.options[this.selectedIndex].value)">
+            {% for choice in choices %}
+            <option value="{{ choice.query_string|iriencode }}">{{ choice.display }}</option>
+
+            {% endfor %}
+        </select>
+    </ul>
+</div>
