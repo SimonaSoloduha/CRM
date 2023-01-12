@@ -3,7 +3,7 @@ from logs.models import Log, STATUS_SUCCESSFUL, STATUS_STOP_MCHECKER, STATUS_FIL
     STATUS_STOP_TIMEZONE
 from logs.serializers import LogSerializer
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListCreateAPIView
 
 from django.shortcuts import redirect
 from rest_framework.response import Response
@@ -16,7 +16,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
 
 
-class LogViewSet(CreateAPIView):
+class LogViewSet(CreateAPIView, ListCreateAPIView):
     """
     API для простмотра и добавления логов
     """
@@ -33,7 +33,10 @@ class LogViewSet(CreateAPIView):
         self.new_id = 0
         super().__init__()
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
+        return self.list(request)
+
+    def post(self, request, *args, **kwargs):
         self.create(request, format=None)
 
     def create(self, request, *args, **kwargs):
@@ -69,15 +72,20 @@ class LogViewSet(CreateAPIView):
         new.save()
 
     def finalize_response(self, request, response, *args, **kwargs):
-        if self.filter_one_time_zone_res != STATUS_FILTER_NOT_STARTED and self.filter_two_cheker_res != STATUS_STOP_TIMEZONE\
-                and self.user_status != STATUS_USER_BAN and self.user_status != STATUS_DEVICE_BANNED and self.user_status != STATUS_VIRTUAL_DEVICE:
-            url = f'https://shrouded-ravine-59969.herokuapp.com/index.php?{self.user_url}?&id={self.new_id}'
-            response = redirect(url)
-            return response
+        if request.method == 'POST':
+            if self.filter_one_time_zone_res != STATUS_FILTER_NOT_STARTED and self.filter_two_cheker_res != STATUS_STOP_TIMEZONE\
+                    and self.user_status != STATUS_USER_BAN and self.user_status != STATUS_DEVICE_BANNED and self.user_status != STATUS_VIRTUAL_DEVICE:
+                url = f'https://shrouded-ravine-59969.herokuapp.com/index.php?{self.user_url}?&id={self.new_id}'
+                response = redirect(url)
+                # user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+                # response['User-Agent'] = user_agent
+                return response
+            else:
+                url = '/'
+                response = redirect(url)
+                return response
         else:
-            url = '/'
-            response = redirect(url)
-            return response
+            return super().finalize_response(request, response, *args, **kwargs)
 
 
 class LogsUpdateView(UpdateAPIView):
