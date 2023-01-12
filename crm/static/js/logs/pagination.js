@@ -16,5 +16,14 @@ window.addEventListener('load', function() {
             window.location.href = url.href;
         });
 
+        let er = $(".errorlist");
+        let er_txt = er.find('li').text();
+
+        if(er_txt) {
+            $('.errorlist li').each(function () {
+                this.classList.toggle('hide');
+            });
+        }
+
     })(django.jQuery);
 });

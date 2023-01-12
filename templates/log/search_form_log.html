@@ -19,15 +19,5 @@
 <div class="help" id="searchbar_helptext">{{ cl.search_help_text }}</div>
 {% endif %}
 </form>
-      {% block filters %}
-        {% if cl.has_filters %}
-          <div id="changelist-filter">
-            {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
-            {% if cl.has_active_filters %}<h3 id="changelist-filter-clear">
-              <a href="{{ cl.clear_all_filters_qs }}"></a>
-            </h3>{% endif %}
-          </div>
-        {% endif %}
-      {% endblock %}
 </div>
 {% endif %}

@@ -121,6 +121,9 @@ class CompanyAdmin(ImportExportModelAdmin):
     class Media:
         js = ("js/company/pagination.js",)
 
+    def get_rangefilter_created_at_title(self, request, field_path):
+        return _('Created: ')
+
     def changelist_view(self, request, extra_context=None):
         try:
             page_param = int(request.GET['e'])

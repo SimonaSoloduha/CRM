@@ -68,7 +68,7 @@ class LogAdmin(ImportExportModelAdmin):
     )
 
     def get_rangefilter_created_at_title(self, request, field_path):
-        return _('Creared: ')
+        return _('Created: ')
 
     def get_headers(self, object):
         return f'{object.user_agent.split(" ")[0]}'
