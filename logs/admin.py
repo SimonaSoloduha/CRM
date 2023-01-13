@@ -57,7 +57,7 @@ class LogAdmin(ImportExportModelAdmin):
 
     change_list_template = "log/change_list_log.html"
     actions = None
-    # list_per_page = 50
+    list_per_page = 50
     resource_classes = [LogResource]
     search_fields = ('ip',)
     list_filter = (

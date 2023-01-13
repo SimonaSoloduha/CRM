@@ -109,7 +109,7 @@ class CompanyAdmin(ImportExportModelAdmin):
         )}),
     )
     list_display_links = ('name',)
-    # list_per_page = 50
+    list_per_page = 50
     actions = None
     search_fields = ('name', 'domen',)
     list_filter = (
