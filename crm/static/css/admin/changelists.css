@@ -1,13 +1,17 @@
 /* Custom tool bar */
 
-#toolbar, #changelist-filter, .paginator-select, .admindatefilter form {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-}
-#changelist-filter .admindatefilter .controls {
-    display: none;
+
+
+@media screen and (min-width: 1024px) {
+    #toolbar, #changelist-filter, .paginator-select, .admindatefilter form {
+        display: flex;
+        align-items: center;
+    }
+
+    #changelist-filter .admindatefilter .controls {
+        display: none;
+    }
+
 }
 
 #changelist-filter {
@@ -42,24 +46,16 @@
     opacity: 0;
 }
 
-#changelist-filter .admindatefilter {
-    padding-left: 0;
-}
-
 
 #changelist .paginator-select {
-    padding-left: 5px;
     border-top: none;
     border-bottom: none;
-    line-height: 24px;
     color: var(--body-quiet-color);
 }
 
 #changelist .paginator-select select, #changelist-filter select {
     border: 1px solid var(--border-color);
     font-weight: 300;
-    height: 25px;
-    margin: 10px;
     padding: 0;
     vertical-align: middle;
     background: var(--body-bg);
@@ -69,14 +65,15 @@
 }
 
 
-#changelist-filter h3 {
+#changelist-filter h3, .paginator-select label {
     font-weight: 300;
-    margin-bottom: 10px;
+    padding: 0 15px;
 }
 
 #changelist-filter .admindatefilter {
     border-bottom: none;
     padding-bottom: 0;
+    padding-left: 0;
 }
 
 #toolbar form input {
@@ -95,6 +92,7 @@
 #changelist-filter ul {
     padding: 0;
     padding-left: 5px;
+    margin: 5px 0;
     line-height: 24px;
     color: var(--body-quiet-color);
     border-bottom: none;
@@ -107,4 +105,33 @@
     height: 18px;
     background: url(../../icons/delete_filter_40.png) 0 1px no-repeat;
     border-bottom: none;
+}
+
+@media screen and (max-width: 960px) {
+
+    #changelist-filter ul, #changelist-filter div ul, #changelist-filter h3, #changelist-filter a {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+
+    #changelist-filter select {
+        margin: 0;
+    }
+
+    #changelist-filter ul {
+        padding: 0 20% 0 0;
+    }
+
+    #changelist-filter ul:last-of-type {
+        padding: 0 100px 0 14px;
+    }
+
+    #changelist-filter #changelist-filter-clear a {
+        right: 0;
+        width: auto;
+        height: auto;
+        margin: 0;
+        display: inline;
+        background-size: 120%;
+    }
 }

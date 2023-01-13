@@ -57,7 +57,7 @@ class LogAdmin(ImportExportModelAdmin):
 
     change_list_template = "log/change_list_log.html"
     actions = None
-    list_per_page = 50
+    # list_per_page = 50
     resource_classes = [LogResource]
     search_fields = ('ip',)
     list_filter = (
@@ -82,9 +82,14 @@ class LogAdmin(ImportExportModelAdmin):
     class Media:
         js = ("js/logs/pagination.js",)
 
+    def get_results(self, request):
+        print('эвпыфрвпф')
+
     def changelist_view(self, request, extra_context=None):
         try:
             page_param = int(request.GET['e'])
+            request.GET = request.GET.copy()
+            request.GET['p'] = 1
             self.list_per_page = page_param
         except Exception:
             pass
