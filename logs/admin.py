@@ -67,6 +67,9 @@ class LogAdmin(ImportExportModelAdmin):
         ('final', FinalFilter),
     )
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
     def get_rangefilter_created_at_title(self, request, field_path):
         return _('Created: ')
 
@@ -81,9 +84,6 @@ class LogAdmin(ImportExportModelAdmin):
 
     class Media:
         js = ("js/logs/pagination.js",)
-
-    def get_results(self, request):
-        print('эвпыфрвпф')
 
     def changelist_view(self, request, extra_context=None):
         try:
