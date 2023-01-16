@@ -160,16 +160,17 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PRIVATE_STORAGE_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_private')
+PRIVATE_STORAGE_AUTH_FUNCTION = 'private_storage.permissions.allow_staff'
 
-STATIC_ROOT = 'static'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = 'media/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
