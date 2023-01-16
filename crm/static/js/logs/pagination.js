@@ -13,17 +13,9 @@ window.addEventListener('load', function() {
             $('#list_per_page_selector').val(localStorage['list_per_page_selector']);
         }
 
-        if (localStorage['filter-log-final']) {
-            $('#filter-log-final').val(localStorage['filter-log-final']);
-        }
-
         $("#list_per_page_selector").on("change", function(event) {
             url.searchParams.set("e", event.target.value);
             window.location.href = url.href;
-        });
-
-        $("#filter-log-final").on("change", function(event) {
-            localStorage['filter-log-final'] = event.target.value;
         });
 
         let er = $(".errorlist");

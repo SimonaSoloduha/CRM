@@ -6,8 +6,8 @@
         <select class="form-control" id="filter-log-final" style="width: 95%;margin-left: 2%;"
                 onchange="go_from_select(this.options[this.selectedIndex].value)">
             {% for choice in choices %}
-            <option value="{{ choice.query_string|iriencode }}">{{ choice.display }}</option>
-
+            <option {% if choice.selected %} selected="selected"{% endif %}
+             value="{{ choice.query_string|iriencode }}">{{ choice.display }}</option>
             {% endfor %}
         </select>
     </ul>
