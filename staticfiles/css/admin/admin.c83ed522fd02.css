@@ -1,0 +1,58 @@
+:root {
+  --primary: #3B3D4A;
+  --secondary: #3B3D4A;
+  --accent: #CE0E0E;
+  --link-fg: #215b77;
+  }
+
+.login .form-row #id_number {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* MODULES */
+
+.module table {
+    border-collapse: separate;
+
+    background: #E5E5E5;
+    border: 1px solid #828282;
+    border-radius: 4px 0px 0px 0px;
+}
+
+thead th a:link, tfoot td {
+    color: #000000;
+}
+
+/* RELATED WIDGET WRAPPER */
+.related-widget-wrapper {
+    float: none !important;
+}
+
+/* CUSTOM */
+/* TABLE BUTTON */
+
+.deletelink {
+    background: url("../../icons/delete.4291089ed017.png") 0 1px no-repeat;
+}
+
+.fixlink {
+    background: url("../../icons/auto_fix_high.a1671655b781.png") 0 1px no-repeat;
+}
+
+.duplicatelink {
+    background: url("../../icons/duplicate.c26eec1531da.png") 0 1px no-repeat;
+}
+
+.loglink {
+    background: url("../../icons/log1.b7fc7acb6357.png") 0 1px no-repeat;
+}
+
+.tablelink {
+    padding: 3px 10px 10px 10px;
+    margin-right: 5px;
+    width: 15px;
+    height: 18px;
+}
+
