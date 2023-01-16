@@ -88,9 +88,10 @@ class LogAdmin(ImportExportModelAdmin):
     def changelist_view(self, request, extra_context=None):
         try:
             page_param = int(request.GET['e'])
-            request.GET = request.GET.copy()
-            request.GET['p'] = 1
-            self.list_per_page = page_param
+            if page_param != 1:
+                request.GET = request.GET.copy()
+                request.GET['p'] = 1
+                self.list_per_page = page_param
         except Exception:
             pass
         return super(LogAdmin, self).changelist_view(request, extra_context)

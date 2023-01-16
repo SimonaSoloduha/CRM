@@ -5,7 +5,7 @@ window.addEventListener('load', function() {
         var url = new URL(window.location);
         user_list_per_page.insertAfter(changelist_form);
 
-        if (url.searchParams.get('e') != null) {
+        if (url.searchParams.get('e') != null && url.searchParams.get('e') != 1) {
             $('#list_per_page_selector').val(url.searchParams.get('e'));
             localStorage['list_per_page_selector'] = url.searchParams.get('e');
         }
