@@ -164,9 +164,6 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 
-PRIVATE_STORAGE_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_private')
-PRIVATE_STORAGE_AUTH_FUNCTION = 'private_storage.permissions.allow_staff'
-
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
