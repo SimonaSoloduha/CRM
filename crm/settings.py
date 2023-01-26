@@ -107,14 +107,25 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 # }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': env('DATABASE_NAME', default=''),
+#         'USER': env('DATABASE_USER_NAME', default=''),
+#         'PASSWORD': env('DATABASE_USER_PASSWORD', default=''),
+#         'HOST': env('DATABASE_HOST', default=''),
+#         'PORT': '',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DATABASE_NAME', default=''),
-        'USER': env('DATABASE_USER_NAME', default=''),
-        'PASSWORD': env('DATABASE_USER_PASSWORD', default=''),
-        'HOST': env('DATABASE_HOST', default=''),
-        'PORT': '',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'crmdb',
+        'USER': 'djangouser',
+        'PASSWORD': 'gshk127gdhgfjndhg988y',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
