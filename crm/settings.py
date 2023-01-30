@@ -32,7 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=False)
 # 'damp-everglades-01529.herokuapp.com', '127.0.0.1'
-ALLOWED_HOSTS = ['http://interaalia.xyz', 'www.interaalia.xyz']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
