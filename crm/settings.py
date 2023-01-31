@@ -106,17 +106,23 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 #     }
 # }
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DATABASE_NAME', default=''),
-        'USER': env('DATABASE_USER_NAME', default=''),
-        'PASSWORD': env('DATABASE_USER_PASSWORD', default=''),
-        'HOST': env('DATABASE_HOST', default=''),
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '/var/opt/CRM/crm.db',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': env('DATABASE_NAME', default=''),
+#         'USER': env('DATABASE_USER_NAME', default=''),
+#         'PASSWORD': env('DATABASE_USER_PASSWORD', default=''),
+#         'HOST': env('DATABASE_HOST', default=''),
+#         'PORT': '',
+#     }
+# }
 
 
 # DATABASES = {
