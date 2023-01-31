@@ -107,27 +107,27 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 # }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': env('DATABASE_NAME', default=''),
-#         'USER': env('DATABASE_USER_NAME', default=''),
-#         'PASSWORD': env('DATABASE_USER_PASSWORD', default=''),
-#         'HOST': env('DATABASE_HOST', default=''),
-#         'PORT': '',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'crmdb',
-        'USER': 'djangouser',
-        'PASSWORD': 'gshk127gdhgfjndhg988y',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DATABASE_NAME', default=''),
+        'USER': env('DATABASE_USER_NAME', default=''),
+        'PASSWORD': env('DATABASE_USER_PASSWORD', default=''),
+        'HOST': env('DATABASE_HOST', default=''),
+        'PORT': '',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': 'crmdb',
+#         'USER': 'djangouser',
+#         'PASSWORD': 'gshk127gdhgfjndhg988y',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
